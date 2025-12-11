@@ -144,13 +144,15 @@ export default function App() {
   const [removingIds, setRemovingIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    const data = localStorage.getItem("username")
-    if(!data) {
-      setIsLoggedIn(false)
+    const data = localStorage.getItem("comet-username");
+    if (data) {
+      setIsLoggedIn(true);
+      setUsername(data);
     } else {
-      setIsLoggedIn(true)
+      setIsLoggedIn(false);
     }
-  }, [])
+  }, []);
+
 
   useEffect(() => {
     setHistory(storage.get<SearchHistoryItem[]>(STORAGE_KEYS.HISTORY) || []);
@@ -180,7 +182,8 @@ export default function App() {
       const newHistory = [{ query, time: Date.now() }, ...history].slice(0, 50);
       setHistory(newHistory);
       storage.set(STORAGE_KEYS.HISTORY, newHistory);
-      window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+      // window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+      window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`
       setSearchValue("");
     }
   }, [searchValue, history]);
@@ -295,46 +298,46 @@ export default function App() {
 
   const cfg = themeConfigs[theme];
 
-if (!username) {
-    return (
-      <div className={`min-h-screen relative font-['Inter'] transition-colors duration-700 antialiased flex items-center justify-center overflow-hidden`}>
-        {theme === Theme.COMET && (
-          <div className="fixed inset-0 pointer-events-none z-0">
-            <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/10 blur-[120px] rounded-full animate-pulse"></div>
-            <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/10 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
-          </div>
-        )}
-        <div className={`relative z-10 w-full max-w-md p-10 rounded-xl shadow-2xl animate-in zoom-in-95 duration-700 text-center space-y-8`}>
-          <div className="space-y-4">
-            <div className={`w-16 h-16 ${cfg.primary} rounded-xl flex items-center justify-center mx-auto shadow-2xl`}>
-              <User className="text-white w-8 h-8" />
+  if (!username) {
+      return (
+        <div className={`min-h-screen relative font-['Inter'] ${cfg.bg} ${cfg.text} transition-colors duration-700 antialiased flex items-center justify-center overflow-hidden`}>
+          {theme === Theme.COMET && (
+            <div className="fixed inset-0 pointer-events-none z-0">
+              <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/10 blur-[120px] rounded-full animate-pulse"></div>
+              <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/10 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
             </div>
-            <h1 className="text-4xl font-black tracking-tighter uppercase">COMET OS</h1>
-            <p className={`${cfg.subtext} font-bold tracking-widest text-xs uppercase opacity-60`}>System Initializing</p>
-          </div>
-          <form onSubmit={handleNameSubmit} className="space-y-6">
-            <div className="space-y-2 text-left">
-              <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-1">Identity Tag</label>
-              <input 
-                autoFocus
-                value={tempUsername}
-                onChange={(e) => setTempUsername(e.target.value)}
-                placeholder="Enter your name"
-                className={`w-full ${cfg.input} border rounded-xl px-6 py-5 outline-none font-bold text-lg transition-all`}
-              />
+          )}
+          <div className={`relative z-10 w-full max-w-md p-10 ${cfg.panel} rounded-xl shadow-2xl animate-in zoom-in-95 duration-700 text-center space-y-8`}>
+            <div className="space-y-4">
+              <div className={`w-16 h-16 ${cfg.primary} rounded-xl flex items-center justify-center mx-auto shadow-2xl`}>
+                <User className="text-white w-8 h-8" />
+              </div>
+              <h1 className="text-4xl font-black tracking-tighter uppercase">MADE BY TOPRAK</h1>
+              <p className={`${cfg.subtext} font-bold tracking-widest text-xs uppercase opacity-60`}>MyNewtab</p>
             </div>
-            <button 
-              type="submit"
-              disabled={!tempUsername.trim()}
-              className={`w-full py-5 ${cfg.primary} disabled:opacity-30 font-black uppercase tracking-widest rounded-xl transition-all shadow-2xl active:scale-95 text-lg flex items-center justify-center gap-3`}
-            >
-              Initialize Node <ArrowRight className="w-5 h-5" />
-            </button>
-          </form>
+            <form onSubmit={handleNameSubmit} className="space-y-6">
+              <div className="space-y-2 text-left">
+                <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-1">Identity Tag</label>
+                <input 
+                  autoFocus
+                  value={tempUsername}
+                  onChange={(e) => setTempUsername(e.target.value)}
+                  placeholder="Enter your name"
+                  className={`w-full ${cfg.input} border rounded-xl px-6 py-5 outline-none font-bold text-lg transition-all`}
+                />
+              </div>
+              <button 
+                type="submit"
+                disabled={!tempUsername.trim()}
+                className={`w-full py-5 ${cfg.primary} disabled:opacity-30 font-black uppercase tracking-widest rounded-xl transition-all shadow-2xl active:scale-95 text-lg flex items-center justify-center gap-3`}
+              >
+                Initialize Node <ArrowRight className="w-5 h-5" />
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
   
   return (
     <div className={`min-h-screen relative font-['Inter'] ${cfg.bg} ${cfg.text} transition-colors duration-700 antialiased pb-32`}>
@@ -358,10 +361,10 @@ if (!username) {
                   I'VELOVED.xyz
                 </h1>
                 <div className={`absolute -bottom-2 right-0 px-3 py-1 ${cfg.primary} text-[10px] font-black uppercase tracking-[0.3em] rounded-lg shadow-xl`}>
-                  Lite v2
+                  Toprak.xyz
                 </div>
               </div>
-              <p className={`${cfg.subtext} font-bold tracking-[0.4em] uppercase text-[11px] opacity-60`}>How are you, Guest?</p>
+              <p className={`${cfg.subtext} font-bold tracking-[0.4em] uppercase text-[11px] opacity-60`}>How are you, {username || "Not logged In."}?</p>
             </div>
 
             <div className="w-full max-w-2xl relative group">
