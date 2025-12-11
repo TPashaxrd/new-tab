@@ -25,7 +25,7 @@ import {
 import { storage, STORAGE_KEYS } from './services/storage';
 import { generateAiStream } from './services/gemini';
 import type { SearchHistoryItem, Note, Shortcut, ChatMessage } from './types';
-import { ViewMode, Theme } from './types';
+import { ViewMode, Theme } from './types'; 
 
 
 const themeConfigs = {

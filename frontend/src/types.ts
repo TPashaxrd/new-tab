@@ -23,16 +23,20 @@ export type ChatMessage = {
   content: string;
 };
 
-export enum ViewMode {
-  HOME = 'HOME',
-  AI_CHAT = 'AI_CHAT',
-  NOTES = 'NOTES',
-  HISTORY = 'HISTORY',
-  SHORTCUTS = 'SHORTCUTS'
-}
+export const ViewMode = {
+  HOME: 'HOME' as const,
+  AI_CHAT: 'AI_CHAT' as const,
+  NOTES: 'NOTES' as const,
+  HISTORY: 'HISTORY' as const,
+  SHORTCUTS: 'SHORTCUTS' as const,
+};
 
-export enum Theme {
-  CLASSIC = 'CLASSIC',
-  DARK = 'DARK',
-  COMET = 'COMET'
-}
+export type ViewMode = typeof ViewMode[keyof typeof ViewMode];
+
+export const Theme = {
+  CLASSIC: 'CLASSIC' as const,
+  DARK: 'DARK' as const,
+  COMET: 'COMET' as const,
+};
+
+export type Theme = typeof Theme[keyof typeof Theme];
